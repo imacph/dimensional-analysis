@@ -1,0 +1,27 @@
+---
+import '../styles/tailwind.css';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+			<link rel="stylesheet" href="/src/styles/tailwind.css" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Dimensional Analysis Tool</title>
+	</head>
+	<body>
+		<main class="flex justify-center items-center p-8 bg-gray-100 min-h-screen min-w-screen">
+			<div class="flex gap-8 flex-col items-center justify-center max-h-screen mx-auto bg-white border-2 border-gray-300 rounded-lg p-8 shadow-lg">
+				<h1 class="text-4xl font-bold mb-4 text-center">Dimensional Analysis Tool</h1>
+				<button class ="px-6 py-3 bg-blue-500 text-white border-2 hover:border-black rounded hover:bg-white hover:text-black shadow-lg hover:shadow-xl transition duration-300">
+					<a href="/app" class="text-lg">
+						Start Dimensional Analysis
+					</a>
+				</button>
+			</div>
+		</main>
+	</body>
+</html>
