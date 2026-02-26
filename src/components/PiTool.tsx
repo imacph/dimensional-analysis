@@ -1,40 +1,7 @@
 
 import React, { useState } from "react";
-
-type Variable = {
-    id: number;
-    name: string;
-    symbol: string;
-    dimensions?: Dimension[];
-    dimensionExponents?: number[];
-};
-
-type Dimension = {
-    id: number;
-    name: string;
-    symbol: string;
-}
-
-
-type IdType = number | string;
-
-function useCrudArray<T extends { id: IdType }>(initial: T[] = []) {
-    const [items, setItems] = useState<T[]>(initial);
-
-    const add = (item: Omit<T, "id">) => {
-        setItems([...items, { ...item, id: Date.now() } as T]);
-    };
-
-    const edit = (id: IdType, field: keyof T, value: any) => {
-        setItems(items.map(i => i.id === id ? { ...i, [field]: value } : i));
-    };
-
-    const remove = (id: IdType) => {
-        setItems(items.filter(i => i.id !== id));
-    };
-
-    return { items, add, edit, remove, setItems };
-}
+import type { Dimension, IdType, Variable } from "../lib/model/types";
+import { useCrudArray } from "../hooks/useCrudArray";
 
 export default function PiTool() {
     // Minimal variable CRUD state
@@ -59,7 +26,7 @@ export default function PiTool() {
     const [newDim, setNewDim] = useState({ name: "", symbol: "" });
     const [dimMode, setDimMode] = useState<"list" | "edit" | "add">("list");
 
-    const [varMode, setVarMode] = useState<"list" | "edit" | "add">("list");
+    const [varMode, setVarMode] = useState<"list" | "edit" | "add" | "select-delete">("list");
     const [selectedVarId, setSelectedVarId] = useState<IdType | null>(null);
 
     // For templates, omit the id since it will be assigned on creation
@@ -85,6 +52,23 @@ export default function PiTool() {
         { name: "Length", symbol: "L" },
         { name: "Time", symbol: "T" },
     ];
+
+    const variable = variables.find(v => v.id === selectedVarId);
+
+    const [selectedDimId, setSelectedDimId] = useState<IdType | "">("");
+    const [newExponent, setNewExponent] = useState<number>(1);
+
+    const handleAddDimToVar = () => {
+        if (!variable || selectedDimId === "") return;
+        const dimToAdd = dimensions.find(d => d.id === selectedDimId);
+        if (!dimToAdd) return;
+        const newDims = [...(variable.dimensions || []), dimToAdd];
+        const newExponents = [...(variable.dimensionExponents || []), newExponent];
+        handleEditVar(variable.id, "dimensions", newDims);
+        handleEditVar(variable.id, "dimensionExponents", newExponents);
+        setSelectedDimId("");
+        setNewExponent(1);
+    }
 
     return (
         <div className="grid grid-cols-10 gap-2 w-full h-full">
@@ -170,7 +154,7 @@ export default function PiTool() {
                                 >Select Template</button>
                             </div>
                             <div className="mb-2">
-                                <div className="font-semibold mb-1">Template Dimenions:</div>
+                                <div className="font-semibold mb-1">Template Dimensions:</div>
                                 {dimensionTemplates.map((tpl, i) => (
                                     <button
                                         key={i}
@@ -212,54 +196,159 @@ export default function PiTool() {
                 </div>
                 <div className="flex flex-col items-center gap-4 border-t-2 pt-6">
                 <h2 className="text-xl lg:text-3xl font-bold mb-4 text-center">Variables</h2>
-                {/* Add Variable Form */}
-                <div className="flex flex-row gap-2 mb-2">
-                    <input
-                        className="flex-1 border rounded px-2 py-1"
-                        placeholder="Symbol"
-                        value={newVar.symbol}
-                        onChange={e => setNewVar(v => ({ ...v, symbol: e.target.value }))}
-                    />
-                    <input
-                        className="flex-1 border rounded px-2 py-1"
-                        placeholder="Name"
-                        value={newVar.name}
-                        onChange={e => setNewVar(v => ({ ...v, name: e.target.value }))}
-                    />
-                    <button
-                        onClick={handleAddVar}
-                        className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-1 px-3 rounded"
-                    >
-                        +
-                    </button>
-                
-                </div>
-                {/* List Variables */}
-                <ul className="flex-1 overflow-y-auto">
-                    { variables.length === 0 ? <li className="text-center text-gray-500">No variables added</li> : variables.map(v => (
-                        <li key={v.id} className="flex items-center gap-2 mb-2">
+                    {/* Add Variable Form */}
+                    { varMode === "list" ? (
+                        <>
+                            <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                                <button className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("select-delete")}
+                                >Edit Variables ...</button>
+                                <button
+                                    className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("add")}
+                                >Add Variable +</button>
+                            </div>
+                            <ul className="w-full">
+                                {variables.length === 0 ? (
+                                    <li className="text-center text-gray-500 w-full">No variables added</li>
+                                ) : (
+                                    variables.map(d => (
+                                        <li key={d.id} className="flex flex-row justify-center items-center gap-2 mb-2 w-full">
+                                            <span className="flex-1 text-left">{d.name}</span>
+                                            <span className="w-16 text-right">{d.symbol}</span>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
+                            </>
+                    ): varMode === "select-delete" ? (<>
+                        <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                                <button className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("list")}
+                                >List Variables ←</button>
+                                <button
+                                    className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("add")}
+                                >Add Variable +</button>
+                            </div>
+                            <ul className="w-full">
+                                {variables.length === 0 ? (
+                                    <li className="text-center text-gray-500 w-full">No variables added</li>
+                                ) : (
+                                    variables.map(d => (
+                                        <li key={d.id} className="flex flex-row justify-center items-center gap-2 mb-2 w-full">
+                                            <span className="flex-1 text-left">{d.name}</span>
+                                            <span className="w-16 text-right">{d.symbol}</span>
+                                            <button
+                                                className="text-red-600 font-bold px-2"
+                                                onClick={() => {setVarMode("edit"); setSelectedVarId(d.id)}}
+                                                title="Edit"
+                                            >✎</button>
+                                            <button
+                                                className="text-red-600 font-bold px-2"
+                                                onClick={() => handleRemoveVar(d.id)}
+                                                title="Remove"
+                                            >×</button>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
+                    </>) : (varMode === "edit" && selectedVarId !== null) ? (<> 
+                        <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                                <button className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("list")}
+                                >List Variables ←</button>
+                                <button
+                                    className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => {setVarMode("list")}}
+                                >Save Variable</button>
+                            </div>
+                            <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                                 
+                            </div>
+                    </>) : varMode === "add" ? (<>
+                        <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                                <button className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => setVarMode("list")}
+                                >List Variables ←</button>
+                                <button
+                                    className="flex flex-auto bg-slate-500 w-full hover:bg-slate-700 text-white font-bold py-1 px-3 rounded mb-4"
+                                    onClick={() => null}
+                                >Select Template</button>
+                            </div>
+                            <div className="mb-2">
+                                <div className="font-semibold mb-1">Template Variables:</div>
+                                {variableTemplates.map((tpl, i) => (
+                                    <button
+                                        key={i}
+                                        className="border px-2 py-1 rounded mr-2 mb-2"
+                                        onClick={() => {
+                                            handleAddVar(tpl);
+                                            setVarMode("list");
+                                        }}
+                                    >
+                                        {tpl.symbol} — {tpl.name}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex flex-row gap-2 mb-2 w-full justify-center">
+                            <select
+                                className="border rounded px-2 py-1 flex-1"
+                                value={selectedDimId ?? ""}
+                                onChange={e => setSelectedDimId(Number(e.target.value))}
+                            >
+                                <option value="">Select dimension</option>
+                                {dimensions.map(d => (
+                                    <option key={d.id} value={d.id}>
+                                        {d.symbol} — {d.name}
+                                    </option>
+                                ))}
+                            </select>
                             <input
-                                className="border rounded px-1 py-0.5 w-16"
-                                value={v.symbol}
-                                onChange={e => handleEditVar(v.id, "symbol", e.target.value)}
-                                placeholder="Symbol"
-                            />
-                            <input
-                                className="border rounded px-1 py-0.5 flex-1"
-                                value={v.name}
-                                onChange={e => handleEditVar(v.id, "name", e.target.value)}
-                                placeholder="Name"
+                                type="number"
+                                className="border rounded px-2 py-1 w-20"
+                                value={newExponent}
+                                onChange={e => setNewExponent(Number(e.target.value))}
+                                placeholder="Exponent"
                             />
                             <button
-                                onClick={() => handleRemoveVar(v.id)}
-                                className="text-red-600 font-bold px-2"
-                                title="Remove"
-                            >
-                                ×
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+                                className="bg-green-500 text-white px-3 py-1 rounded"
+                                onClick={handleAddDimToVar}
+                            >Add</button>
+                        </div>
+                        <ul className="w-full">
+                            {variable.dimensions && variable.dimensionExponents && variable.dimensions.length > 0 ? (
+                                variable.dimensions.map((dim, idx) => (
+                                    <li key={dim.id} className="flex flex-row items-center gap-2 mb-2">
+                                        <span className="flex-1">{dim.name} ({dim.symbol})</span>
+                                        <input
+                                            type="number"
+                                            className="border rounded px-2 py-1 w-20"
+                                            value={variable.dimensionExponents[idx]}
+                                            onChange={e => {
+                                                const newExponents = [...variable.dimensionExponents];
+                                                newExponents[idx] = Number(e.target.value);
+                                                handleEditVar(variable.id, "dimensionExponents", newExponents);
+                                            }}
+                                        />
+                                        <button
+                                            className="text-red-600 font-bold px-2"
+                                            onClick={() => {
+                                                const newDims = variable.dimensions.filter((_, i) => i !== idx);
+                                                const newExponents = variable.dimensionExponents.filter((_, i) => i !== idx);
+                                                handleEditVar(variable.id, "dimensions", newDims);
+                                                handleEditVar(variable.id, "dimensionExponents", newExponents);
+                                            }}
+                                            title="Remove"
+                                        >×</button>
+                                    </li>
+                                ))
+                            ) : (
+                                <li className="text-center text-gray-500">No dimensions assigned</li>
+                            )}
+                        </ul>
+                    </>) : null
+                     }
                 </div>
             </div>
         </div>
