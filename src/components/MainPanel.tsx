@@ -43,6 +43,7 @@ export default function MainPanel() {
     const [showAddDropdown, setShowAddDropdown] = useState(false);
     const [topHeight, setTopHeight] = useState(0.5);
     const [isDragging, setIsDragging] = useState(false);
+    const [dragOffset, setDragOffset] = useState<number | null>(null);
 
     // Mouse move handler for resizing the panels
     const handleMouseMove = (e: MouseEvent) => {
@@ -50,13 +51,17 @@ export default function MainPanel() {
         const container = document.getElementById('main-panel-container');
         if (!container) return;
         const rect = container.getBoundingClientRect();
-        const offsetY = e.clientY - rect.top;
+        let offsetY = e.clientY - rect.top;
+        if (dragOffset !== null) {
+            offsetY -= dragOffset;
+        }
         const fraction = Math.min(Math.max(offsetY / rect.height, 0.1), 0.9); // Limit to 10%-90%
         setTopHeight(fraction);
     };
 
     const handleMouseUp = () => {
         setIsDragging(false);
+        setDragOffset(null);
     };
 
     // Add event listeners for mouse move and mouse up when dragging
@@ -117,23 +122,32 @@ export default function MainPanel() {
                         />
                     </div>
                 </div>
-                <div className="flex h-3 border-b-2 border-gray-400 
-                                bg-slate-500 items-center justify-center cursor-row-resize">
-                    <div
-                        className="flex cursor-row-resize h-1/3 w-1/4 bg-gray-200 rounded-lg"
-                        onMouseDown={() => setIsDragging(true)}
-                    >
-                    </div>
-                </div>
-                <div className="flex flex-col">
+                <div
+                    className="flex h-2 border-b-2 border-gray-400 bg-slate-500 items-center justify-center cursor-row-resize"
+                    onMouseDown={e => {
+                        const container = document.getElementById('main-panel-container');
+                        if (container) {
+                            const rect = container.getBoundingClientRect();
+                            const offsetY = e.clientY - rect.top;
+                            const panelHeight = rect.height * topHeight;
+                            setDragOffset(offsetY - panelHeight);
+                        } else {
+                            setDragOffset(0);
+                        }
+                        setIsDragging(true);
+                    }}
+                ></div>
+                <div className="flex flex-col flex-1 min-h-0">
                     {listTitle("Variables")}
-                    <VariableList
-                        dimensions={dimensions}
-                        variables={variables}
-                        onEdit={editVariable}
-                        onEditMany={editVariableMany}
-                        onRemove={removeVariable}
-                    />
+                    <div className="flex flex-col flex-1 min-h-0 overflow-y-auto h-full">
+                        <VariableList
+                            dimensions={dimensions}
+                            variables={variables}
+                            onEdit={editVariable}
+                            onEditMany={editVariableMany}
+                            onRemove={removeVariable}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
