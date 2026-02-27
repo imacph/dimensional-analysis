@@ -14,20 +14,11 @@ function listTitle(title: string) {
     )
 }
 
-interface MainPanelProps {
-    variables: Variable[];
-    dimensions: Dimension[];
-    addVariable: (v: Omit<Variable, "id">) => void;
-    editVariable: (id: Variable["id"], field: keyof Variable, value: any) => void;
-    editVariableMany: (id: Variable["id"], updates: Partial<Variable>) => void;
-    removeVariable: (id: Variable["id"]) => void;
-    addDimension: (d: Omit<Dimension, "id">) => void;
-    editDimension: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
-    removeDimension: (id: Dimension["id"]) => void;
-}
 
-export default function MainPanel({variables, dimensions, addVariable, editVariable, editVariableMany, removeVariable, addDimension, editDimension, removeDimension}: MainPanelProps) {
-
+export default function MainPanel() {
+    const { variables, dimensions, 
+        addVariable, editVariable, editVariableMany, 
+        removeVariable, addDimension, editDimension, removeDimension } = usePiTool();
 
     const [showAddDropdown, setShowAddDropdown] = useState(false);
     const [topHeight, setTopHeight] = useState(0.5);

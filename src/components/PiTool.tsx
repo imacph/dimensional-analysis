@@ -2,6 +2,7 @@ import MainPanel from "./MainPanel";
 import { useCrudArray } from '../hooks/useCrudArray';
 import type { Variable, Dimension } from '../lib/model/types';
 import { PiToolContext } from '../context/PiToolContext';
+import ResultsPanel from "./ResultsPanel";
 
 
 export default function PiTool() {
@@ -42,22 +43,11 @@ export default function PiTool() {
         addDimension, editDimension, removeDimension
     }}>
         <div className="grid grid-cols-10 gap-2 w-full h-full">
-            <div className="col-span-7 p-4 h-full">
-                <h2 className="text-xl lg:text-4xl font-bold mb-4">Results</h2>
-                {/* Display results here */}
+            <div className="col-span-7 h-full">
+                <ResultsPanel />
             </div>
             <div className="col-span-3 flex flex-col gap-4 border-2 rounded-2xl border-gray-300 h-full w-full">
-                <MainPanel 
-                    variables={variables}
-                    dimensions={dimensions}
-                    addVariable={addVariable}
-                    editVariable={editVariable}
-                    editVariableMany={editVariableMany}
-                    removeVariable={removeVariable}
-                    addDimension={addDimension}
-                    editDimension={editDimension}
-                    removeDimension={removeDimension}
-                />
+                <MainPanel />
             </div>
         </div>
     </PiToolContext.Provider>);
