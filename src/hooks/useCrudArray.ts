@@ -12,9 +12,14 @@ export function useCrudArray<T extends { id: IdType }>(initial: T[] = []) {
         setItems(items.map(i => i.id === id ? { ...i, [field]: value } : i));
     };
 
+    // Batch update multiple fields
+    const editMany = (id: IdType, updates: Partial<T>) => {
+        setItems(items.map(i => i.id === id ? { ...i, ...updates } : i));
+    };
+
     const remove = (id: IdType) => {
         setItems(items.filter(i => i.id !== id));
     };
 
-    return { items, add, edit, remove, setItems };
+    return { items, add, edit, editMany, remove, setItems };
 }

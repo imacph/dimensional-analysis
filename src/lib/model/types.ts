@@ -4,7 +4,7 @@ export type Variable = {
     id: number;
     name: string;
     symbol: string;
-    dimensions?: Dimension[];
+    dimensions?: number[];
     dimensionExponents?: number[];
 };
 

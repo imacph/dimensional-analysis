@@ -18,9 +18,20 @@ export default function MainPanel() {
     const {
         items: variables,
         add: addVariable,
-        edit: editVariable,
+        edit: _editVariable,
+        editMany: _editVariableMany,
         remove: removeVariable,
     } = useCrudArray<Variable>([]);
+
+    // Custom edit handler to match useCrudArray signature
+    const editVariable = (id: Variable["id"], field: keyof Variable, value: any) => {
+        _editVariable(id, field, value);
+    };
+
+    // Batch edit handler for updating multiple fields
+    const editVariableMany = (id: Variable["id"], updates: Partial<Variable>) => {
+        _editVariableMany(id, updates);
+    };
 
     const {
         items: dimensions,
@@ -117,8 +128,10 @@ export default function MainPanel() {
                 <div className="flex flex-col">
                     {listTitle("Variables")}
                     <VariableList
+                        dimensions={dimensions}
                         variables={variables}
                         onEdit={editVariable}
+                        onEditMany={editVariableMany}
                         onRemove={removeVariable}
                     />
                 </div>
