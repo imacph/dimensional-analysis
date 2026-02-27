@@ -77,7 +77,7 @@ export default function PiTool() {
                 <h2 className="text-xl lg:text-4xl font-bold mb-4">Results</h2>
                 {/* Display results here */}
             </div>
-            <div className="col-span-3 flex flex-col gap-4 border-2 rounded-lg border-gray-300 h-full w-full">
+            <div className="col-span-3 flex flex-col gap-4 border-2 rounded-2xl border-gray-300 h-full w-full">
                 <MainPanel />
             </div>
         </div>
