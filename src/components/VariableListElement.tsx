@@ -25,14 +25,25 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
         onEdit(variable.id, "name", e.target.value);
     };
 
+    // Edit variable symbol inline
+    const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onEdit(variable.id, "symbol", e.target.value);
+    }
     return (
-        <li className="flex flex-col border-b px-2">
-            <div className="flex items-center justify-between h-12">
-                <input
-                    className="font-semibold bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-400"
-                    value={variable.name}
-                    onChange={handleNameChange}
-                />
+        <li className="flex flex-col border-b-2 border-gray-300 px-2 bg-white">
+            <div className="flex flex-row items-center justify-between h-12">
+                <div className="flex items-center gap-2">
+                    <input
+                        className="font-semibold bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
+                        value={variable.name}
+                        onChange={handleNameChange}
+                    />
+                    <input
+                        className="w-16 text-center bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
+                        value={variable.symbol}
+                        onChange={handleSymbolChange}
+                    />
+                </div>
                 <div className="flex gap-2">
                     <button
                         className="px-2 py-1 rounded bg-slate-300 hover:bg-slate-400"

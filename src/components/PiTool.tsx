@@ -1,85 +1,64 @@
-
-import React, { useState } from "react";
-import type { Dimension, IdType, Variable } from "../lib/model/types";
-import { useCrudArray } from "../hooks/useCrudArray";
 import MainPanel from "./MainPanel";
+import { useCrudArray } from '../hooks/useCrudArray';
+import type { Variable, Dimension } from '../lib/model/types';
+import { PiToolContext } from '../context/PiToolContext';
+
 
 export default function PiTool() {
-    // Minimal variable CRUD state
     const {
         items: variables,
-        add: handleAddVar,
-        edit: handleEditVar,
-        remove: handleRemoveVar
+        add: addVariableOrig,
+        edit: _editVariable,
+        editMany: _editVariableMany,
+        remove: removeVariable,
     } = useCrudArray<Variable>([]);
 
-    // State for new variable form
-    const [newVar, setNewVar] = useState({ name: "", symbol: "" });
+    // Debug wrapper for addVariable
+    const addVariable = (v: Omit<Variable, "id">) => {
+        console.log('addVariable called', v);
+        addVariableOrig(v);
+    };
 
-    // Minimal dimension CRUD state 
+    // Custom edit handler to match useCrudArray signature
+    const editVariable = (id: Variable["id"], field: keyof Variable, value: any) => {
+        _editVariable(id, field, value);
+    };
+
+    // Batch edit handler for updating multiple fields
+    const editVariableMany = (id: Variable["id"], updates: Partial<Variable>) => {
+        _editVariableMany(id, updates);
+    };
+
     const {
         items: dimensions,
-        add: handleAddDim,
-        edit: handleEditDim,
-        remove: handleRemoveDim
+        add: addDimension,
+        edit: editDimension,
+        remove: removeDimension,
     } = useCrudArray<Dimension>([]);
 
-    const [newDim, setNewDim] = useState({ name: "", symbol: "" });
-    const [dimMode, setDimMode] = useState<"list" | "edit" | "add">("list");
-
-    const [varMode, setVarMode] = useState<"list" | "edit" | "add" | "select-delete">("list");
-    const [selectedVarId, setSelectedVarId] = useState<IdType | null>(null);
-
-    // For templates, omit the id since it will be assigned on creation
-    const variableTemplates: Omit<Variable, "id">[] = [
-        { name: "Velocity", symbol: "v", 
-            dimensions: [
-                { id: 0, name: "Length", symbol: "L" },
-                { id: 0, name: "Time", symbol: "T" }
-            ],
-            dimensionExponents: [1, -1]
-         },
-        { name: "Force", symbol: "F", 
-            dimensions: [
-                { id: 0, name: "Mass", symbol: "M" },
-                { id: 0, name: "Length", symbol: "L" },
-                { id: 0, name: "Time", symbol: "T" }
-            ],
-            dimensionExponents: [1, 1, -2]
-        },
-    ];
-
-    const dimensionTemplates: Omit<Dimension, "id">[] = [
-        { name: "Length", symbol: "L" },
-        { name: "Time", symbol: "T" },
-    ];
-
-    const variable = variables.find(v => v.id === selectedVarId);
-
-    const [selectedDimId, setSelectedDimId] = useState<IdType | "">("");
-    const [newExponent, setNewExponent] = useState<number>(1);
-
-    const handleAddDimToVar = () => {
-        if (!variable || selectedDimId === "") return;
-        const dimToAdd = dimensions.find(d => d.id === selectedDimId);
-        if (!dimToAdd) return;
-        const newDims = [...(variable.dimensions || []), dimToAdd];
-        const newExponents = [...(variable.dimensionExponents || []), newExponent];
-        handleEditVar(variable.id, "dimensions", newDims);
-        handleEditVar(variable.id, "dimensionExponents", newExponents);
-        setSelectedDimId("");
-        setNewExponent(1);
-    }
-
-    return (
+    return (<PiToolContext.Provider value={{
+        variables, dimensions,
+        addVariable, editVariable, editVariableMany, removeVariable,
+        addDimension, editDimension, removeDimension
+    }}>
         <div className="grid grid-cols-10 gap-2 w-full h-full">
             <div className="col-span-7 p-4 h-full">
                 <h2 className="text-xl lg:text-4xl font-bold mb-4">Results</h2>
                 {/* Display results here */}
             </div>
             <div className="col-span-3 flex flex-col gap-4 border-2 rounded-2xl border-gray-300 h-full w-full">
-                <MainPanel />
+                <MainPanel 
+                    variables={variables}
+                    dimensions={dimensions}
+                    addVariable={addVariable}
+                    editVariable={editVariable}
+                    editVariableMany={editVariableMany}
+                    removeVariable={removeVariable}
+                    addDimension={addDimension}
+                    editDimension={editDimension}
+                    removeDimension={removeDimension}
+                />
             </div>
         </div>
-    );
+    </PiToolContext.Provider>);
 }

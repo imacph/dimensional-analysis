@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCrudArray } from '../hooks/useCrudArray';
+import { usePiTool } from '../context/PiToolContext';
 import type { Variable, Dimension } from '../lib/model/types';
 import VariableList from './VariableList';
 import DimensionList from './DimensionList';
@@ -14,38 +14,20 @@ function listTitle(title: string) {
     )
 }
 
-export default function MainPanel() {
+interface MainPanelProps {
+    variables: Variable[];
+    dimensions: Dimension[];
+    addVariable: (v: Omit<Variable, "id">) => void;
+    editVariable: (id: Variable["id"], field: keyof Variable, value: any) => void;
+    editVariableMany: (id: Variable["id"], updates: Partial<Variable>) => void;
+    removeVariable: (id: Variable["id"]) => void;
+    addDimension: (d: Omit<Dimension, "id">) => void;
+    editDimension: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
+    removeDimension: (id: Dimension["id"]) => void;
+}
 
-    const {
-        items: variables,
-        add: addVariableOrig,
-        edit: _editVariable,
-        editMany: _editVariableMany,
-        remove: removeVariable,
-    } = useCrudArray<Variable>([]);
+export default function MainPanel({variables, dimensions, addVariable, editVariable, editVariableMany, removeVariable, addDimension, editDimension, removeDimension}: MainPanelProps) {
 
-    // Debug wrapper for addVariable
-    const addVariable = (v: Omit<Variable, "id">) => {
-        console.log('addVariable called', v);
-        addVariableOrig(v);
-    };
-
-    // Custom edit handler to match useCrudArray signature
-    const editVariable = (id: Variable["id"], field: keyof Variable, value: any) => {
-        _editVariable(id, field, value);
-    };
-
-    // Batch edit handler for updating multiple fields
-    const editVariableMany = (id: Variable["id"], updates: Partial<Variable>) => {
-        _editVariableMany(id, updates);
-    };
-
-    const {
-        items: dimensions,
-        add: addDimension,
-        edit: editDimension,
-        remove: removeDimension,
-    } = useCrudArray<Dimension>([]);
 
     const [showAddDropdown, setShowAddDropdown] = useState(false);
     const [topHeight, setTopHeight] = useState(0.5);

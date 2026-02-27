@@ -45,7 +45,7 @@ export default function VariableDimensionDropdown({ variable, dimensions, onEdit
     );
 
     return (
-        <div className="bg-slate-100 px-2 py-1 rounded mt-1">
+        <div className="px-2 py-1 rounded mt-1">
             {/* Add dimension UX: button reveals styled dropdown list */}
             <div className="flex items-center gap-2 mb-2 relative">
                 <button
