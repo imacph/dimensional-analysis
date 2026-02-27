@@ -8,9 +8,9 @@ type DimensionListProps = {
 
 export default function DimensionList({ dimensions, onEdit, onRemove }: DimensionListProps) {
     return (
-        <ul>
+        <ul className="flex flex-col h-full">
             {dimensions.map(d => (
-                <li key={d.id}>
+                <li key={d.id} className="flex flex-none flex-row items-center h-14 bg-white border-b-2 border-gray-300 px-2">
                     <input
                         value={d.name}
                         onChange={e => onEdit(d.id, "name", e.target.value)}

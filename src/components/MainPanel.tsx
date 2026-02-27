@@ -98,11 +98,13 @@ export default function MainPanel() {
             <div id="main-panel-container" className="flex flex-col h-full gap-0 bg-slate-100 h-full">
                 <div style = {{height: `${topHeight* 100}%`}} className="flex flex-col border-b-2 border-gray-400">
                     {listTitle("Dimensions")}
-                    <DimensionList
-                        dimensions={dimensions}
-                        onEdit={editDimension}
-                        onRemove={removeDimension}
-                    />
+                    <div className="flex flex-col h-full overflow-y-auto">
+                        <DimensionList
+                            dimensions={dimensions}
+                            onEdit={editDimension}
+                            onRemove={removeDimension}
+                        />
+                    </div>
                 </div>
                 <div className="flex h-3 border-b-2 border-gray-400 
                                 bg-slate-500 items-center justify-center cursor-row-resize">
