@@ -15,13 +15,20 @@ function listTitle(title: string) {
 }
 
 export default function MainPanel() {
+
     const {
         items: variables,
-        add: addVariable,
+        add: addVariableOrig,
         edit: _editVariable,
         editMany: _editVariableMany,
         remove: removeVariable,
     } = useCrudArray<Variable>([]);
+
+    // Debug wrapper for addVariable
+    const addVariable = (v: Omit<Variable, "id">) => {
+        console.log('addVariable called', v);
+        addVariableOrig(v);
+    };
 
     // Custom edit handler to match useCrudArray signature
     const editVariable = (id: Variable["id"], field: keyof Variable, value: any) => {
