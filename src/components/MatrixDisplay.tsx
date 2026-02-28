@@ -19,7 +19,7 @@ export default function MatrixDisplay({ matrix }: { matrix: Matrix }) {
                         key={`cell-${rowIdx}-${colIdx}`}
                         style={{ border: "1px solid #ccc", borderRadius: "4px", display: "flex", alignItems: "center", justifyContent: "center", height: "48px", background: "#fff", color: "#333" }}
                     >
-                        {Number.isFinite(val) ? val : 0}
+                        {val.toString()}
                     </div>
                 ))
             )}
