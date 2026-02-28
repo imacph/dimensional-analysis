@@ -1,0 +1,65 @@
+[
+  {
+    "label": "Latin Lowercase",
+    "symbols": [
+      { "value": "a", "latex": "a" }, { "value": "b", "latex": "b" }, { "value": "c", "latex": "c" },
+      { "value": "d", "latex": "d" }, { "value": "e", "latex": "e" }, { "value": "f", "latex": "f" },
+      { "value": "g", "latex": "g" }, { "value": "h", "latex": "h" }, { "value": "i", "latex": "i" },
+      { "value": "j", "latex": "j" }, { "value": "k", "latex": "k" }, { "value": "l", "latex": "l" },
+      { "value": "m", "latex": "m" }, { "value": "n", "latex": "n" }, { "value": "o", "latex": "o" },
+      { "value": "p", "latex": "p" }, { "value": "q", "latex": "q" }, { "value": "r", "latex": "r" },
+      { "value": "s", "latex": "s" }, { "value": "t", "latex": "t" }, { "value": "u", "latex": "u" },
+      { "value": "v", "latex": "v" }, { "value": "w", "latex": "w" }, { "value": "x", "latex": "x" },
+      { "value": "y", "latex": "y" }, { "value": "z", "latex": "z" }
+    ]
+  },
+  {
+    "label": "Latin Uppercase",
+    "symbols": [
+      { "value": "A", "latex": "A" }, { "value": "B", "latex": "B" }, { "value": "C", "latex": "C" },
+      { "value": "D", "latex": "D" }, { "value": "E", "latex": "E" }, { "value": "F", "latex": "F" },
+      { "value": "G", "latex": "G" }, { "value": "H", "latex": "H" }, { "value": "I", "latex": "I" },
+      { "value": "J", "latex": "J" }, { "value": "K", "latex": "K" }, { "value": "L", "latex": "L" },
+      { "value": "M", "latex": "M" }, { "value": "N", "latex": "N" }, { "value": "O", "latex": "O" },
+      { "value": "P", "latex": "P" }, { "value": "Q", "latex": "Q" }, { "value": "R", "latex": "R" },
+      { "value": "S", "latex": "S" }, { "value": "T", "latex": "T" }, { "value": "U", "latex": "U" },
+      { "value": "V", "latex": "V" }, { "value": "W", "latex": "W" }, { "value": "X", "latex": "X" },
+      { "value": "Y", "latex": "Y" }, { "value": "Z", "latex": "Z" }
+    ]
+  },
+  {
+    "label": "Greek Lowercase",
+    "symbols": [
+      { "value": "α", "latex": "\\alpha" }, { "value": "β", "latex": "\\beta" }, { "value": "γ", "latex": "\\gamma" },
+      { "value": "δ", "latex": "\\delta" }, { "value": "ε", "latex": "\\epsilon" }, { "value": "ζ", "latex": "\\zeta" },
+      { "value": "η", "latex": "\\eta" }, { "value": "θ", "latex": "\\theta" }, { "value": "ι", "latex": "\\iota" },
+      { "value": "κ", "latex": "\\kappa" }, { "value": "λ", "latex": "\\lambda" }, { "value": "μ", "latex": "\\mu" },
+      { "value": "ν", "latex": "\\nu" }, { "value": "ξ", "latex": "\\xi" }, { "value": "ο", "latex": "o" },
+      { "value": "π", "latex": "\\pi" }, { "value": "ρ", "latex": "\\rho" }, { "value": "σ", "latex": "\\sigma" },
+      { "value": "τ", "latex": "\\tau" }, { "value": "υ", "latex": "\\upsilon" }, { "value": "φ", "latex": "\\phi" },
+      { "value": "χ", "latex": "\\chi" }, { "value": "ψ", "latex": "\\psi" }, { "value": "ω", "latex": "\\omega" }
+    ]
+  },
+  {
+    "label": "Greek Uppercase",
+    "symbols": [
+      { "value": "Α", "latex": "A" }, { "value": "Β", "latex": "B" }, { "value": "Γ", "latex": "\\Gamma" },
+      { "value": "Δ", "latex": "\\Delta" }, { "value": "Ε", "latex": "E" }, { "value": "Ζ", "latex": "Z" },
+      { "value": "Η", "latex": "H" }, { "value": "Θ", "latex": "\\Theta" }, { "value": "Ι", "latex": "I" },
+      { "value": "Κ", "latex": "K" }, { "value": "Λ", "latex": "\\Lambda" }, { "value": "Μ", "latex": "M" },
+      { "value": "Ν", "latex": "N" }, { "value": "Ξ", "latex": "\\Xi" }, { "value": "Ο", "latex": "O" },
+      { "value": "Π", "latex": "\\Pi" }, { "value": "Ρ", "latex": "P" }, { "value": "Σ", "latex": "\\Sigma" },
+      { "value": "Τ", "latex": "T" }, { "value": "Υ", "latex": "\\Upsilon" }, { "value": "Φ", "latex": "\\Phi" },
+      { "value": "Χ", "latex": "X" }, { "value": "Ψ", "latex": "\\Psi" }, { "value": "Ω", "latex": "\\Omega" }
+    ]
+  },
+  {
+    "label": "Other",
+    "symbols": [
+      { "value": "∑", "latex": "\\sum" }, { "value": "∫", "latex": "\\int" }, { "value": "∞", "latex": "\\infty" },
+      { "value": "∂", "latex": "\\partial" }, { "value": "∇", "latex": "\\nabla" }, { "value": "⊗", "latex": "\\otimes" },
+      { "value": "⊕", "latex": "\\oplus" }, { "value": "⊥", "latex": "\\perp" }, { "value": "≈", "latex": "\\approx" },
+      { "value": "≠", "latex": "\\neq" }, { "value": "≤", "latex": "\\leq" }, { "value": "≥", "latex": "\\geq" }
+    ]
+  }
+]

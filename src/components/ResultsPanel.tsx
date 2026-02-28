@@ -17,8 +17,9 @@ export default function ResultsPanel() {
                 <div className="col-span-1 bg-slate-200 rounded-xl p-4">
                     <MatrixDisplay matrix={rawInputMatrix} />
                 </div>
-                <div className="col-span-1 bg-slate-200 rounded-xl p-4">
+                <div className="col-span-1 flex flex-col gap-2 bg-slate-200 rounded-xl p-4">
                     <MatrixDisplay matrix={rrefMatrix} />
+                    <MatrixDisplay matrix={rawInputMatrix.nullspaceBasis(rrefMatrix)} />
                 </div>
             </div>
         </div>

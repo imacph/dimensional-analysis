@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { usePiTool } from '../context/PiToolContext';
-import type { Variable, Dimension } from '../lib/model/types';
 import VariableList from './VariableList';
 import DimensionList from './DimensionList';
 import AddDropdown from './AddDropdown';

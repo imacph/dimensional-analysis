@@ -1,5 +1,5 @@
 import type { Dimension } from '../lib/model/types';
-
+import SymbolDropdown from './SymbolDropdown';
 type DimensionListProps = {
     dimensions: Dimension[];
     onEdit: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
@@ -15,9 +15,9 @@ export default function DimensionList({ dimensions, onEdit, onRemove }: Dimensio
                         value={d.name}
                         onChange={e => onEdit(d.id, "name", e.target.value)}
                     />
-                    <input
+                    <SymbolDropdown
                         value={d.symbol}
-                        onChange={e => onEdit(d.id, "symbol", e.target.value)}
+                        onChange={symbol => onEdit(d.id, "symbol", symbol)}
                     />
                     <button onClick={()=> onRemove(d.id)}>×</button>
                 </li>
