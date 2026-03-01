@@ -8,9 +8,10 @@ type VariableListElementProps = {
     onEdit: (v: Variable["id"], field: keyof Variable, value: any) => void;
     onRemove: (v: Variable["id"]) => void;
     onEditMany: (v: Variable["id"], updates: Partial<Variable>) => void;
+    highlight?: boolean; // Optional prop to highlight this variable (e.g., if affected by dimension deletion)
 };
 
-export default function VariableListElement({ variable, dimensions, onEdit, onRemove, onEditMany }: VariableListElementProps) {
+export default function VariableListElement({ variable, dimensions, onEdit, onRemove, onEditMany, highlight }: VariableListElementProps) {
     // Open dropdown by default for new variables (no dimensions)
     const [expanded, setExpanded] = useState((variable.dimensions ?? []).length === 0);
 
@@ -30,7 +31,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
         onEdit(variable.id, "symbol", e.target.value);
     }
     return (
-        <li className="flex flex-col border-b-2 border-gray-300 px-2 bg-white">
+        <li className={`flex flex-col border-b-2 border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
             <div className="flex flex-row items-center justify-between h-12">
                 <div className="flex items-center gap-2">
                     <input

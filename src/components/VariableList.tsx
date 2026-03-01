@@ -7,9 +7,10 @@ type VariableListProps = {
     onEdit: (id: Variable["id"], field: keyof Variable, value: any) => void;
     onEditMany: (id: Variable["id"], updates: Partial<Variable>) => void;
     onRemove: (id: Variable["id"]) => void;
+    affectedVarIds?: number[]; // Optional prop to highlight variables affected by a dimension deletion
 };
 
-export default function VariableList({ variables, dimensions, onEdit, onEditMany, onRemove }: VariableListProps) {
+export default function VariableList({ variables, dimensions, onEdit, onEditMany, onRemove, affectedVarIds }: VariableListProps) {
     return (
         <ul className="flex flex-col h-full">
             {variables.map(v => (
@@ -20,6 +21,7 @@ export default function VariableList({ variables, dimensions, onEdit, onEditMany
                     onEdit={onEdit}
                     onRemove={onRemove}
                     onEditMany={onEditMany}
+                    highlight={affectedVarIds?.includes(v.id) ?? false}
                 />
             ))}
         </ul>
