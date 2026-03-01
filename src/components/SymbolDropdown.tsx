@@ -35,15 +35,15 @@ export default function SymbolDropdown({ value, onChange }: SymbolDropdownProps)
         : "Select symbol...";
 
     return (
-        <div ref={ref} className="relative w-40">
+        <div ref={ref} className="relative flex-initial min-w-0 w-32">
             <button
-                className="w-full px-2 py-1 border rounded bg-white text-left"
+                className="px-2 py-1 border rounded bg-white text-left w-full"
                 onClick={() => setOpen(o => !o)}
             >
-                <span className="font-serif italic">{display}</span>
+                <span className={`font-serif italic ${value ? "" : "text-gray-400"}`} style={{ minWidth: "2em", display: "inline-block" }}>{display}</span>
             </button>
             {open && (
-                <div className="absolute left-0 top-full mt-1 w-full bg-white border rounded shadow-lg z-10">
+                <div className="absolute left-0 top-0 w-full bg-white border rounded shadow-lg z-10">
                     <input
                         type="text"
                         autoFocus

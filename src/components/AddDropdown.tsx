@@ -21,7 +21,7 @@ export default function AddDropdown({ onAddVariable, onAddDimension, onClose }: 
     };
 
     const handleAddDimension = () => {
-        const newDimension = { name: "New Dimension", symbol: "D" };
+        const newDimension = { name: "", symbol: "" };
         onAddDimension(newDimension);
         onClose();
     };

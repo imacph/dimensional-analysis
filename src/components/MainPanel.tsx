@@ -126,7 +126,7 @@ export default function MainPanel() {
                             </button>
                         </div>
                     )}
-                    <div className="flex flex-col h-full overflow-y-auto">
+                    <div className="flex flex-col h-full overflow-auto w-full">
                         <DimensionList
                             dimensions={dimensions}
                             onEdit={editDimension}

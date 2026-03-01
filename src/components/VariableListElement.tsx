@@ -1,7 +1,7 @@
 import type { Variable, Dimension } from '../lib/model/types';
 import { useState } from 'react';
 import VariableDimensionDropdown from './VariableDimensionDropdown';
-
+import SymbolDropdown from './SymbolDropdown';
 type VariableListElementProps = {
     variable: Variable;
     dimensions: Dimension[];
@@ -27,11 +27,11 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
     };
 
     // Edit variable symbol inline
-    const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onEdit(variable.id, "symbol", e.target.value);
+    const handleSymbolChange = (symbol: string) => {
+        onEdit(variable.id, "symbol", symbol);
     }
     return (
-        <li className={`flex flex-col border-b-2 border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
+        <li className={`flex flex-col border-b-2 border-gray-300 px-2 w-full ${highlight ? 'bg-red-100' : 'bg-white'}`}>
             <div className="flex flex-row items-center justify-between h-12">
                 <div className="flex items-center gap-2">
                     <input
@@ -39,8 +39,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
                         value={variable.name}
                         onChange={handleNameChange}
                     />
-                    <input
-                        className="w-16 text-center bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
+                    <SymbolDropdown
                         value={variable.symbol}
                         onChange={handleSymbolChange}
                     />
