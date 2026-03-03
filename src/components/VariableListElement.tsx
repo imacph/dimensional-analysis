@@ -31,7 +31,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
         onEdit(variable.id, "symbol", symbol);
     }
     return (
-        <li className={`flex flex-col border-b-2 border-gray-300 px-2 w-full ${highlight ? 'bg-red-100' : 'bg-white'}`}>
+        <li className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
             <div className="flex flex-row items-center justify-between h-12">
                 <div className="flex items-center gap-2">
                     <input
