@@ -11,8 +11,8 @@ export default function AddDropdown({ onAddVariable, onAddDimension, onClose }: 
 
     const handleAddVariable = () => {
         const newVariable: Omit<Variable, "id"> = {
-            name: "New Variable",
-            symbol: "X",
+            name: "",
+            symbol: "",
             dimensions: [],
             dimensionExponents: [],
         };

@@ -32,27 +32,34 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
     }
     return (
         <li className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
-            <div className="flex flex-row items-center justify-between h-12">
-                <div className="flex items-center gap-2">
+            <div className="flex flex-row items-center justify-between h-12 gap-1">
+                <div className="flex items-center justify-start gap-2 w-full">
+                    <button
+                        className="px-1 py-1 text-gray-400 hover:text-gray-900"
+                        onClick={() => setExpanded(e => !e)}
+                    >
+                        <span
+                            className={`inline-block transition-all duration-200 ease-in-out transform ${
+                                expanded ? "rotate-0 opacity-100" : "-rotate-90 opacity-100"
+                            }`}
+                        >
+                            ▼
+                        </span>
+                    </button>
                     <input
-                        className="font-semibold bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
+                        className="flex flex-1 max-w-[8rem] font-semibold bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
                         value={variable.name}
                         onChange={handleNameChange}
+                        placeholder='Label'
                     />
+                </div>
+                <div className="flex gap-2 justify-end items-center">
                     <SymbolDropdown
                         value={variable.symbol}
                         onChange={handleSymbolChange}
                     />
-                </div>
-                <div className="flex gap-2">
                     <button
-                        className="px-2 py-1 rounded bg-slate-300 hover:bg-slate-400"
-                        onClick={() => setExpanded(e => !e)}
-                    >
-                        {expanded ? '▲' : '▼'}
-                    </button>
-                    <button
-                        className="px-2 py-1 rounded bg-red-200 hover:bg-red-400"
+                        className="flex text-gray-500 rounded w-min text-2xl mx-2 hover:text-gray-900 mb-1"
                         onClick={() => onRemove(variable.id)}
                         title="Remove variable"
                     >
