@@ -20,14 +20,14 @@ type VariableListElementProps = {
 };
 
 export default function VariableListElement({ variable, dimensions, onEdit, onRemove, onEditMany, highlight }: VariableListElementProps) {
-    // Open dropdown by default for new variables (no dimensions)
-    const [expanded, setExpanded] = useState((variable.dimensions ?? []).length === 0);
+    // Open dropdown by default for new variables (no exponents)
+    const [expanded, setExpanded] = useState(variable.exponents?.length === 0);
 
-    // Sync expanded state if variable.dimensions changes (e.g., new variable gets its first dimension)
-    // If you want to auto-collapse after adding a dimension, uncomment the effect below.
+    // Sync expanded state if variable.exponents changes (e.g., new variable gets its first exponent)
+    // If you want to auto-collapse after adding an exponent, uncomment the effect below.
     // React.useEffect(() => {
-    //     if ((variable.dimensions ?? []).length > 0) setExpanded(false);
-    // }, [variable.dimensions]);
+    //     if ((variable.exponents ?? []).length > 0) setExpanded(false);
+    // }, [variable.exponents]);
 
     // Edit variable name/symbol inline
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +38,20 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
     const handleSymbolChange = (symbol: string) => {
         onEdit(variable.id, "symbol", symbol);
     }
+
+    const visibleFundamentalIndices = dimensions
+        .map((d, idx) => d.isFundamental && d.isVisible ? idx : -1)
+        .filter(idx => idx !== -1);
+
+    // Filter presets: only include those with nonzero exponents for visible fundamental units
+    const filteredPresets = allPresets.filter(preset => {
+        if (!preset.dimensions) return false;
+        // Only suggest if all nonzero exponents are for visible fundamental units
+        return preset.dimensions.every((exp, idx) => {
+            if (exp === 0) return true;
+            return visibleFundamentalIndices.includes(idx);
+        });
+    });
     return (
         <div className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
             <div className="flex flex-row items-center justify-between h-12 gap-1">
@@ -59,14 +73,13 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
                         value={variable.name}
                         onChange={val => onEdit(variable.id, "name", val)}
                         placeholder='Label'
-                        suggestions={allPresets}
-                        onSelectSuggestion={preset=> {
+                        suggestions={filteredPresets}
+                        onSelectSuggestion={preset => {
                             onEditMany(variable.id, {
                                 name: preset.label,
                                 symbol: preset.symbol ?? variable.symbol,
-                                dimensions: preset.dimensions ?? variable.dimensions,
-                                dimensionExponents: preset.dimensions ? preset.dimensions.map(_ => 1) : variable.dimensionExponents
-                            })
+                                exponents: preset.dimensions ?? variable.exponents
+                            });
                         }}
                     />
                 </div>

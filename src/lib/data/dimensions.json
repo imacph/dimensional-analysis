@@ -52,7 +52,7 @@
     {
         "category": "Fluid Mechanics Quantities",
         "contents": [
-            {"label":"Dynamic Viscosity", "symbols": ["μ"], "dimensions": [1,1,-1,0,0,0,0]},
+            {"label":"Dynamic Viscosity", "symbols": ["μ"], "dimensions": [-1,1,-1,0,0,0,0]},
             {"label":"Kinematic Viscosity (momentum diffusivity)", "symbols": ["ν"], "dimensions": [2,0,-1,0,0,0,0]},
             {"label":"Mass Density", "symbols": ["/rho"], "dimensions": [-3,1,0,0,0,0,0]},
             {"label":"Mass Diffusivity", "symbols": ["D"], "dimensions": [2,0,-1,0,0,0,0]}
@@ -64,7 +64,6 @@
             {"label":"Young's Modulus", "symbols": ["E"], "dimensions": [1,1,-2,0,0,0,0]},
             {"label":"Shear Modulus", "symbols": ["G"], "dimensions": [1,1,-2,0,0,0,0]},
             {"label":"Bulk Modulus", "symbols": ["K"], "dimensions": [1,1,-2,0,0,0,0]},
-            {"label":"Poisson's Ratio", "symbols": ["ν"], "dimensions": [0,0,0,0,0,0,0]},
             {"label":"Stress", "symbols": ["σ"], "dimensions": [-1,1,-2,0,0,0,0]}
         ]
     }

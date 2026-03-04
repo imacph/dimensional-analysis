@@ -9,19 +9,15 @@ export class Matrix {
         this.data = data.map(row => [...row]);
     }
 
-    static fromVariablesAndDimensions(variables: Variable[], 
-                                    dimensions: Dimension[]): Matrix {
-        const matrix: Rational[][] = dimensions.map(dim => 
-            variables.map(variable => {
-                let exponent = 0;
-                if (Array.isArray(variable.dimensions) && Array.isArray(variable.dimensionExponents)) {
-                    const idx = variable.dimensions.findIndex(did => did === dim.id);
-                    // findIndex returns -1 if not found, so we check for that
-                    exponent = idx !== -1 ? variable.dimensionExponents[idx] : 0;
-                }
-                return new Rational(exponent, 1); // convert to Rational for matrix operations
-            })  
+    static fromVariablesAndDimensions(variables: Variable[], dimensions: Dimension[]): Matrix {
+        // Build matrix: each row corresponds to a dimension, each column to a variable
+        let matrix: Rational[][] = dimensions.map((_, dimIdx) =>
+            variables.map(variable => new Rational(variable.exponents[dimIdx] ?? 0, 1))
         );
+
+        // Remove trivial rows (all zeros)
+        matrix = matrix.filter(row => row.some(cell => !cell.equals(new Rational(0, 1))));
+
         return new Matrix(matrix);
     }
 

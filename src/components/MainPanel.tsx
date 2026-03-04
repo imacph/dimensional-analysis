@@ -28,11 +28,11 @@ export default function MainPanel() {
     const [deleteAttempt, setDeleteAttempt] = useState<{ dimId: number, affectedVarIds: number[] } | null>(null);
     
     // Helper to check if a dimension is used in a variable
-    const getVariablesUsingDimension = (dimId: number) => {
-        return variables
-            .filter(v => v.dimensions?.includes(dimId))
-            .map(v => v.id); // Return variable IDs that use this dimension
-    }
+    const getVariablesUsingDimension = (dimIdx: number) => {
+    return variables
+        .filter(v => v.exponents[dimIdx] !== 0)
+        .map(v => v.id); // Return variable IDs that use this dimension index
+    };
 
     // Handler for attempting to delete a dimension
     const handleRemoveDimension = (dimId: number) => {
