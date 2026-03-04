@@ -17,7 +17,9 @@ function listTitle(title: string) {
 export default function MainPanel() {
     const { variables, dimensions, 
         addVariable, editVariable, editVariableMany, 
-        removeVariable, addDimension, editDimension, removeDimension } = usePiTool();
+        removeVariable, addDimension, editDimension, removeDimension,
+        reorderVariables 
+    } = usePiTool();
 
     const [showAddDropdown, setShowAddDropdown] = useState(false);
     const [topHeight, setTopHeight] = useState(0.5);
@@ -147,6 +149,7 @@ export default function MainPanel() {
                             onEdit={editVariable}
                             onEditMany={editVariableMany}
                             onRemove={removeVariable}
+                            onReorder={reorderVariables}
                             affectedVarIds={deleteAttempt ? deleteAttempt.affectedVarIds : []}
                         />
                     </div>

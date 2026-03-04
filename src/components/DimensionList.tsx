@@ -1,5 +1,7 @@
 import type { Dimension,Variable } from '../lib/model/types';
 import SymbolDropdown from './SymbolDropdown';
+import AutocompleteInput from './AutocompleteInput';
+import dimensionPresets from '../lib/data/dimensions.json';
 type DimensionListProps = {
     dimensions: Dimension[];
     onEdit: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
@@ -8,6 +10,9 @@ type DimensionListProps = {
     onCancelDelete?: () => void;
     variables?: Variable[];
 };
+
+const fundamentalUnits = dimensionPresets.find(c => c.category === "Fundamental Units")?.contents ?? [];
+
 
 export default function DimensionList({ dimensions, onEdit, onRemove, deleteAttempt, onCancelDelete, variables }: DimensionListProps) {
     return (
@@ -32,11 +37,12 @@ export default function DimensionList({ dimensions, onEdit, onRemove, deleteAtte
                 <li key={d.id} className="flex flex-none flex-row min-w-full items-center justify-between h-14 bg-white border-b-2 border-gray-300 px-2 gap-4">
                     <div className="flex flex-row items-center justify-start gap-1 h-full w-full">
                         <div className="flex-shrink-0 min-w-[6em]">
-                            <input
-                                className="flex font-semibold bg-transparent focus:border rounded p-1 border-gray-300 focus:outline-none placeholder:text-gray-400"
+                            <AutocompleteInput
+                                //className="flex font-semibold bg-transparent focus:border rounded p-1 border-gray-300 focus:outline-none placeholder:text-gray-400"
                                 value={d.name}
-                                onChange={e => onEdit(d.id, "name", e.target.value)}
+                                onChange={e => onEdit(d.id, "name", e)}
                                 placeholder="Label"
+                                suggestions={fundamentalUnits}
                             />
                         </div>
                         <div className="flex-shrink-0 min-w-[6em] items-center flex h-full">

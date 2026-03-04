@@ -2,6 +2,14 @@ import type { Variable, Dimension } from '../lib/model/types';
 import { useState } from 'react';
 import VariableDimensionDropdown from './VariableDimensionDropdown';
 import SymbolDropdown from './SymbolDropdown';
+import dimensionPresets from '../lib/data/dimensions.json';
+import AutocompleteInput from './AutocompleteInput';
+
+const allPresets = dimensionPresets.flatMap(c => c.contents);
+const fundamentalUnits = dimensionPresets.find(c => c.category === "Fundamental Units")?.contents ?? [];
+
+
+
 type VariableListElementProps = {
     variable: Variable;
     dimensions: Dimension[];
@@ -31,7 +39,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
         onEdit(variable.id, "symbol", symbol);
     }
     return (
-        <li className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
+        <div className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
             <div className="flex flex-row items-center justify-between h-12 gap-1">
                 <div className="flex items-center justify-start gap-2 w-full">
                     <button
@@ -46,11 +54,20 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
                             ▼
                         </span>
                     </button>
-                    <input
-                        className="flex flex-1 max-w-[8rem] font-semibold bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
+                    <AutocompleteInput
+                        //className="flex flex-1 max-w-[8rem] font-semibold bg-transparent focus:border rounded-lg p-1 border-gray-300 focus:outline-none"
                         value={variable.name}
-                        onChange={handleNameChange}
+                        onChange={val => onEdit(variable.id, "name", val)}
                         placeholder='Label'
+                        suggestions={allPresets}
+                        onSelectSuggestion={preset=> {
+                            onEditMany(variable.id, {
+                                name: preset.label,
+                                symbol: preset.symbol ?? variable.symbol,
+                                dimensions: preset.dimensions ?? variable.dimensions,
+                                dimensionExponents: preset.dimensions ? preset.dimensions.map(_ => 1) : variable.dimensionExponents
+                            })
+                        }}
                     />
                 </div>
                 <div className="flex gap-2 justify-end items-center">
@@ -74,6 +91,6 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
                     onEditMany={onEditMany}
                 />
             )}
-        </li>
+        </div>
     );
 }

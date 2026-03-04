@@ -11,6 +11,7 @@ interface PiToolContextType {
     addDimension: (d: Omit<Dimension, "id">) => void;
     editDimension: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
     removeDimension: (id: Dimension["id"]) => void;
+    reorderVariables: (newOrder: Variable[]) => void; 
 }
 
 export const PiToolContext = createContext<PiToolContextType | undefined>(undefined);

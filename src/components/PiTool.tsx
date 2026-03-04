@@ -5,6 +5,7 @@ import { PiToolContext } from '../context/PiToolContext';
 import ResultsPanel from "./ResultsPanel";
 
 
+
 export default function PiTool() {
     const {
         items: variables,
@@ -12,11 +13,11 @@ export default function PiTool() {
         edit: _editVariable,
         editMany: _editVariableMany,
         remove: removeVariable,
+        setItems: setVariables
     } = useCrudArray<Variable>([]);
 
     // Debug wrapper for addVariable
     const addVariable = (v: Omit<Variable, "id">) => {
-        console.log('addVariable called', v);
         addVariableOrig(v);
     };
 
@@ -30,6 +31,12 @@ export default function PiTool() {
         _editVariableMany(id, updates);
     };
 
+    // Reorder handler for drag-and-drop
+    const reorderVariables = (newOrder: Variable[]) => {
+        setVariables(newOrder);
+    };
+
+    // Dimension CRUDD
     const {
         items: dimensions,
         add: addDimension,
@@ -40,7 +47,7 @@ export default function PiTool() {
     return (<PiToolContext.Provider value={{
         variables, dimensions,
         addVariable, editVariable, editVariableMany, removeVariable,
-        addDimension, editDimension, removeDimension
+        addDimension, editDimension, removeDimension, reorderVariables
     }}>
         <div className="grid grid-cols-10 gap-2 w-full h-full">
             <div className="col-span-7 h-full">
