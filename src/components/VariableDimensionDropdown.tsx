@@ -10,9 +10,9 @@ type VariableDimensionDropdownProps = {
 
 export default function VariableDimensionDropdown({ variable, dimensions, onEditMany }: VariableDimensionDropdownProps) {
     // Edit exponent inline
-    const handleExponentChange = (dimIdx: number, newExp: string | number) => {
+    const handleExponentChange = (expIdx: number, newExp: string | number) => {
         const newExps = [...variable.exponents];
-        newExps[dimIdx] = newExp === "" ? 0 : Number(newExp);
+        newExps[expIdx] = newExp === "" ? 0 : Number(newExp);
         onEditMany(variable.id, { exponents: newExps });
     };
 
@@ -20,12 +20,12 @@ export default function VariableDimensionDropdown({ variable, dimensions, onEdit
         <div className="px-2 py-1 rounded mt-1">
             <ul>
                 {dimensions.filter(d => d.isVisible).map((dim, idx) => (
-                    <li key={String(dim.id)} className="flex items-center gap-2 py-1">
+                    <li key={dim.id} className="flex items-center gap-2 py-1">
                         <span className="w-24">{dim.name}</span>
                         <input
                             type="number"
                             className="w-20 px-1 border rounded"
-                            value={variable.exponents[idx] ?? ""}
+                            value={variable.exponents[idx] ?? 0}
                             onChange={e => handleExponentChange(idx, e.target.value)}
                             placeholder="Exponent"
                         />

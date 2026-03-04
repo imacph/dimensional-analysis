@@ -15,16 +15,16 @@ export default function VariableList({ variables, dimensions, onEdit, onEditMany
     const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
 
     function handleDragStart(idx: number) {
-        console.log('Drag start', idx);
+
         setDraggedIdx(idx);
     }
     function handleDragOver(e: React.DragEvent<HTMLLIElement>, idx: number) {
         e.preventDefault();
-        console.log('Drag over', idx, 'draggedIdx:', draggedIdx);
+
     }
     function handleDrop(e: React.DragEvent<HTMLLIElement>, idx: number) {
         e.preventDefault();
-        console.log('Drop', idx, 'draggedIdx:', draggedIdx);
+
         if (draggedIdx === null || draggedIdx === idx) return;
         const reordered = [...variables];
         const [moved] = reordered.splice(draggedIdx, 1);
@@ -33,7 +33,7 @@ export default function VariableList({ variables, dimensions, onEdit, onEditMany
         onReorder(reordered);
     }
     function handleDragEnd() {
-        console.log('Drag end');
+
         setDraggedIdx(null);
     }
 

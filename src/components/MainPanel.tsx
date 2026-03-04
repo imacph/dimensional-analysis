@@ -36,7 +36,8 @@ export default function MainPanel() {
 
     // Handler for attempting to delete a dimension
     const handleRemoveDimension = (dimId: number) => {
-        const affectedVarIds = getVariablesUsingDimension(dimId);
+        const dimIdx = dimensions.findIndex(d => d.id === dimId); // Get the index!
+        const affectedVarIds = getVariablesUsingDimension(dimIdx);
         if (affectedVarIds.length > 0) {
             setDeleteAttempt({ dimId, affectedVarIds });
         } else {
@@ -95,7 +96,8 @@ export default function MainPanel() {
 
     React.useEffect(() => {
         console.log('Dimensions updated:', dimensions);
-    }, [dimensions]);
+        console.log('Variables updated:', variables);
+    }, [dimensions, variables]);
 
     return (
         <div className="flex flex-col h-full gap-0 bg-slate-200 rounded-2xl">

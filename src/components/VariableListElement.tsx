@@ -77,7 +77,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
                         onSelectSuggestion={preset => {
                             onEditMany(variable.id, {
                                 name: preset.label,
-                                symbol: preset.symbol ?? variable.symbol,
+                                symbol: preset.symbols?.[0] ?? variable.symbol,
                                 exponents: preset.dimensions ?? variable.exponents
                             });
                         }}

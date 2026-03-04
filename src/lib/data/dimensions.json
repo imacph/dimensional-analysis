@@ -6,7 +6,7 @@
             {"label": "Mass", "symbols": ["M","m"], "dimensions": [0,1,0,0,0,0,0]},
             {"label": "Time", "symbols": ["T","t"], "dimensions": [0,0,1,0,0,0,0]},
             {"label": "Electric Current", "symbols": ["I","i"], "dimensions": [0,0,0,1,0,0,0]},
-            {"label": "Temperature", "symbols": ["Θ","θ"], "dimensions": [0,0,0,0,1,0,0]},
+            {"label": "Temperature", "symbols": ["\\Theta","\\theta"], "dimensions": [0,0,0,0,1,0,0]},
             {"label": "Amount of Substance", "symbols": ["N","n"], "dimensions": [0,0,0,0,0,1,0]},
             {"label": "Luminous Intensity", "symbols": ["J","j"]}
         ]
@@ -28,7 +28,7 @@
             {"label":"Heat Capacity", "symbols": ["C"], "dimensions": [2,1,-2,0,-1,0,0]},
             {"label":"Specific Heat Capacity", "symbols": ["c"], "dimensions": [2,0,-2,0,-1,0,0]},
             {"label":"Thermal Conductivity", "symbols": ["k"], "dimensions": [1,1,-3,0,-1,0,0]},
-            {"label":"Thermal Diffusivity", "symbols": ["α"], "dimensions": [2,0,-1,0,0,0,0]},
+            {"label":"Thermal Diffusivity", "symbols": ["\\alpha"], "dimensions": [2,0,-1,0,0,0,0]},
             {"label":"Energy Density", "symbols": ["u"], "dimensions": [1,1,-2,0,0,0,0]}
             
         ]
@@ -45,16 +45,16 @@
             {"label":"Conductance", "symbols": ["G"], "dimensions": [-2,-1,3,2,0,0,0]},
             {"label":"Electric Field", "symbols": ["E"], "dimensions": [2,1,-3,-1,0,0,0]},
             {"label":"Magnetic Field", "symbols": ["B"], "dimensions": [2,1,-2,-1,0,0,0]},
-            {"label":"Magnetic Diffusivity", "symbols": ["η"], "dimensions": [2,0,-1,-1,0,0,0]},
-            {"label":"Electric Conductivity", "symbols": ["σ"], "dimensions": [2,1,-3,-2,0,0,0]}
+            {"label":"Magnetic Diffusivity", "symbols": ["\\eta"], "dimensions": [2,0,-1,-1,0,0,0]},
+            {"label":"Electric Conductivity", "symbols": ["\\sigma"], "dimensions": [2,1,-3,-2,0,0,0]}
         ]
     },
     {
         "category": "Fluid Mechanics Quantities",
         "contents": [
-            {"label":"Dynamic Viscosity", "symbols": ["μ"], "dimensions": [-1,1,-1,0,0,0,0]},
-            {"label":"Kinematic Viscosity (momentum diffusivity)", "symbols": ["ν"], "dimensions": [2,0,-1,0,0,0,0]},
-            {"label":"Mass Density", "symbols": ["/rho"], "dimensions": [-3,1,0,0,0,0,0]},
+            {"label":"Dynamic Viscosity", "symbols": ["\\mu"], "dimensions": [-1,1,-1,0,0,0,0]},
+            {"label":"Kinematic Viscosity (momentum diffusivity)", "symbols": ["\\nu"], "dimensions": [2,0,-1,0,0,0,0]},
+            {"label":"Mass Density", "symbols": ["\\rho"], "dimensions": [-3,1,0,0,0,0,0]},
             {"label":"Mass Diffusivity", "symbols": ["D"], "dimensions": [2,0,-1,0,0,0,0]}
         ]
     },
@@ -64,7 +64,7 @@
             {"label":"Young's Modulus", "symbols": ["E"], "dimensions": [1,1,-2,0,0,0,0]},
             {"label":"Shear Modulus", "symbols": ["G"], "dimensions": [1,1,-2,0,0,0,0]},
             {"label":"Bulk Modulus", "symbols": ["K"], "dimensions": [1,1,-2,0,0,0,0]},
-            {"label":"Stress", "symbols": ["σ"], "dimensions": [-1,1,-2,0,0,0,0]}
+            {"label":"Stress", "symbols": ["\\sigma"], "dimensions": [-1,1,-2,0,0,0,0]}
         ]
     }
 ]

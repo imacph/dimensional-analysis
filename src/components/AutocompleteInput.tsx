@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 type Suggestion = {
     label: string;
-    symbol?: string;
+    symbols?: string[];
     dimensions?: number[];
 };
 
@@ -54,7 +54,7 @@ export default function AutocompleteInput({
                                 onSelectSuggestion?.(s);
                             }}
                         >
-                            {s.label} {s.symbol ? `(${s.symbol})` : ""}
+                            {s.label} {s.symbols?.[0] ? `(${s.symbols[0]})` : ""}
                         </li>
                     ))}
                 </ul>

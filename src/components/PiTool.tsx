@@ -5,6 +5,7 @@ import { PiToolContext } from '../context/PiToolContext';
 import ResultsPanel from "./ResultsPanel";
 
 import dimensionPresets from '../lib/data/dimensions.json';
+import { useEffect } from "react";
 
 
 
@@ -25,7 +26,7 @@ export default function PiTool() {
 
     const {
         items: variables,
-        add: addVariableOrig,
+        add: _addVariable,
         edit: _editVariable,
         editMany: _editVariableMany,
         remove: removeVariable,
@@ -34,7 +35,10 @@ export default function PiTool() {
 
     // Debug wrapper for addVariable
     const addVariable = (v: Omit<Variable, "id">) => {
-        addVariableOrig(v);
+        _addVariable({
+            ...v,
+            exponents: Array(dimensions.length).fill(0),
+        });
     };
 
     // Custom edit handler to match useCrudArray signature
@@ -55,21 +59,12 @@ export default function PiTool() {
     // Dimension CRUDD
     const {
         items: dimensions,
-        add: _addDimension,
+        add: addDimension,
         edit: _editDimension,
         remove: _removeDimension,
     } = useCrudArray<Dimension>(initialDimensions);
     
-    const addDimension = (dim: Omit<Dimension, "id">) => {
 
-        _addDimension(dim); 
-
-        // Extend all variable exponents arrays
-        setVariables(variables.map(v => ({
-            ...v,
-            exponents: [...(v.exponents ?? []), 0],
-        })));
-    };
 
     const editDimension = (id: Dimension["id"], field: keyof Dimension, value: any) => {
         if (field === "name") {
@@ -78,7 +73,7 @@ export default function PiTool() {
                 d => d.isFundamental && d.name === value
             );
             if (matchingFundamental && !matchingFundamental.isVisible) {
-                console.log(matchingFundamental.id)
+                
                 _editDimension(matchingFundamental.id, "isVisible", true);
                 removeDimension(id);
                 return;
@@ -94,10 +89,19 @@ export default function PiTool() {
             _editDimension(id, "isVisible", false);
             return;
         }
+
         _removeDimension(id);
     }
     
-
+    useEffect(() => {
+        setVariables(vars =>
+            vars.map(v => ({
+                ...v,
+                exponents: dimensions.map((_, idx) => (v.exponents?.[idx] ?? 0))
+            }))
+        );
+    }, [dimensions]);
+    
     return (<PiToolContext.Provider value={{
         variables, dimensions,
         addVariable, editVariable, editVariableMany, removeVariable,
