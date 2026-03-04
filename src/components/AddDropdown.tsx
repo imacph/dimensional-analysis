@@ -1,5 +1,6 @@
+import { usePiTool } from "../context/PiToolContext";
 import type { Variable, Dimension } from "../lib/model/types";
-import { useState } from "react";
+
 type AddDropdownProps = {
     onAddVariable: (variable: Omit<Variable, "id">) => void;
     onAddDimension: (dimension: Omit<Dimension, "id">) => void;
@@ -7,21 +8,26 @@ type AddDropdownProps = {
 };
 
 export default function AddDropdown({ onAddVariable, onAddDimension, onClose }: AddDropdownProps) {
-
+    const { dimensions,  
+        } = usePiTool();
 
     const handleAddVariable = () => {
         const newVariable: Omit<Variable, "id"> = {
             name: "",
             symbol: "",
-            dimensions: [],
-            dimensionExponents: [],
+            exponents: Array(dimensions.length).fill(0),
         };
         onAddVariable(newVariable);
         onClose();
     };
 
     const handleAddDimension = () => {
-        const newDimension = { name: "", symbol: "" };
+        const newDimension = { 
+            name: "", 
+            symbol: "",
+            isVisible: true, // New dimensions are visible by default
+            isFundamental: false, // New dimensions are not fundamental by default
+        };
         onAddDimension(newDimension);
         onClose();
     };

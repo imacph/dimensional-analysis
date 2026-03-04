@@ -4,9 +4,25 @@ import type { Variable, Dimension } from '../lib/model/types';
 import { PiToolContext } from '../context/PiToolContext';
 import ResultsPanel from "./ResultsPanel";
 
+import dimensionPresets from '../lib/data/dimensions.json';
+
+
+
 
 
 export default function PiTool() {
+
+    const fundamentalUnits = dimensionPresets.find(c => c.category === "Fundamental Units")?.contents ?? [];
+
+    const initialDimensions: Dimension[] = fundamentalUnits.map((unit, index) => ({
+        id: index,
+        name: unit.label,
+        symbol: unit.symbols?.[0] ?? "",
+        isFundamental: true,
+        isVisible: false, // Start with fundamental dimensions hidden by default
+    }));
+
+
     const {
         items: variables,
         add: addVariableOrig,
@@ -39,10 +55,48 @@ export default function PiTool() {
     // Dimension CRUDD
     const {
         items: dimensions,
-        add: addDimension,
-        edit: editDimension,
-        remove: removeDimension,
-    } = useCrudArray<Dimension>([]);
+        add: _addDimension,
+        edit: _editDimension,
+        remove: _removeDimension,
+    } = useCrudArray<Dimension>(initialDimensions);
+    
+    const addDimension = (dim: Omit<Dimension, "id">) => {
+
+        _addDimension(dim); 
+
+        // Extend all variable exponents arrays
+        setVariables(variables.map(v => ({
+            ...v,
+            exponents: [...(v.exponents ?? []), 0],
+        })));
+    };
+
+    const editDimension = (id: Dimension["id"], field: keyof Dimension, value: any) => {
+        if (field === "name") {
+            // Find matching fundamental in the current dimensions list
+            const matchingFundamental = dimensions.find(
+                d => d.isFundamental && d.name === value
+            );
+            if (matchingFundamental && !matchingFundamental.isVisible) {
+                console.log(matchingFundamental.id)
+                _editDimension(matchingFundamental.id, "isVisible", true);
+                removeDimension(id);
+                return;
+            }
+        }
+        _editDimension(id, field, value);
+    };
+
+    const removeDimension = (id: Dimension["id"]) => {
+        // if it's a fundamental, just hide it instead of removing
+        const dim = dimensions.find(d => d.id === id);
+        if (dim?.isFundamental) {
+            _editDimension(id, "isVisible", false);
+            return;
+        }
+        _removeDimension(id);
+    }
+    
 
     return (<PiToolContext.Provider value={{
         variables, dimensions,

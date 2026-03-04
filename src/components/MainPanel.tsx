@@ -93,6 +93,10 @@ export default function MainPanel() {
         };
     }, [isDragging]);
 
+    React.useEffect(() => {
+        console.log('Dimensions updated:', dimensions);
+    }, [dimensions]);
+
     return (
         <div className="flex flex-col h-full gap-0 bg-slate-200 rounded-2xl">
 

@@ -33,7 +33,8 @@ export default function DimensionList({ dimensions, onEdit, onRemove, deleteAtte
                     </button>
                 </li>
             )}
-            {dimensions.map(d => (
+            
+            {dimensions.filter(d => d.isVisible).map(d => (
                 <li key={d.id} className="flex flex-none flex-row min-w-full items-center justify-between h-14 bg-white border-b-2 border-gray-300 px-2 gap-4">
                     <div className="flex flex-row items-center justify-start gap-1 h-full w-full">
                         <div className="flex-shrink-0 min-w-[6em]">

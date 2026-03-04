@@ -6,7 +6,7 @@
             {"label": "Mass", "symbols": ["M","m"], "dimensions": [0,1,0,0,0,0,0]},
             {"label": "Time", "symbols": ["T","t"], "dimensions": [0,0,1,0,0,0,0]},
             {"label": "Electric Current", "symbols": ["I","i"], "dimensions": [0,0,0,1,0,0,0]},
-            {"label": "Thermodynamic Temperature", "symbols": ["Θ","θ"], "dimensions": [0,0,0,0,1,0,0]},
+            {"label": "Temperature", "symbols": ["Θ","θ"], "dimensions": [0,0,0,0,1,0,0]},
             {"label": "Amount of Substance", "symbols": ["N","n"], "dimensions": [0,0,0,0,0,1,0]},
             {"label": "Luminous Intensity", "symbols": ["J","j"]}
         ]
