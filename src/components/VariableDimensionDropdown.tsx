@@ -19,18 +19,21 @@ export default function VariableDimensionDropdown({ variable, dimensions, onEdit
     return (
         <div className="px-2 py-1 rounded mt-1">
             <ul>
-                {dimensions.filter(d => d.isVisible).map((dim, idx) => (
-                    <li key={dim.id} className="flex items-center gap-2 py-1">
-                        <span className="w-24">{dim.name}</span>
-                        <input
-                            type="number"
-                            className="w-20 px-1 border rounded"
-                            value={variable.exponents[idx] ?? 0}
-                            onChange={e => handleExponentChange(idx, e.target.value)}
-                            placeholder="Exponent"
-                        />
-                    </li>
-                ))}
+                {dimensions
+                    .map((dim, fullIdx) => ({ dim, fullIdx }))
+                    .filter(({ dim }) => dim.isVisible)
+                    .map(({ dim, fullIdx }) => (
+                        <li key={dim.id} className="flex items-center gap-2 py-1">
+                            <span className="w-24">{dim.name}</span>
+                            <input
+                                type="number"
+                                className="w-20 px-1 border rounded"
+                                value={variable.exponents[fullIdx] ?? 0}
+                                onChange={e => handleExponentChange(fullIdx, e.target.value)}
+                                placeholder="Exponent"
+                            />
+                        </li>
+                    ))}
             </ul>
         </div>
     );
