@@ -7,8 +7,8 @@ import AddDropdown from './AddDropdown';
 
 function listTitle(title: string) {
     return (
-        <div className="flex flex-row justify-start items-center bg-slate-300 border-b-2 border-gray-400">
-            <h1 className="flex text-lg font-bold px-4 text-gray-700">{title}</h1>
+        <div className="flex flex-row justify-start items-center bg-slate-300 dark:bg-zinc-600 border-b-2 border-gray-400 dark:border-zinc-500">
+            <h1 className="flex text-lg font-bold px-4 text-gray-700 dark:text-zinc-200">{title}</h1>
         </div>
     )
 }
@@ -97,13 +97,13 @@ export default function MainPanel() {
 
 
     return (
-        <div className="flex flex-col h-full gap-0 bg-slate-200 rounded-2xl">
+        <div className="flex flex-col h-full gap-0 rounded-2xl">
 
-            <div className="flex flex-row justify-start items-center bg-slate-500 gap-2 px-2 py-2 border-b-2 border-gray-300 relative rounded-t-xl">
+            <div className="flex flex-row justify-start items-center bg-slate-500 dark:bg-zinc-800 gap-2 px-2 py-2 border-b-2 border-gray-300 dark:border-zinc-500 relative rounded-t-xl">
                 <button
                     className={`font-extrabold text-2xl text-white 
-                        px-3 pb-3 pt-2 rounded-lg hover:bg-slate-700 
-                        ${showAddDropdown ? "bg-slate-600" : "bg-slate-500"}`}
+                        px-3 pb-3 pt-2 rounded-lg hover:bg-slate-700 dark:hover:bg-zinc-700
+                        ${showAddDropdown ? "bg-slate-600 dark:bg-zinc-700" : "bg-slate-500 dark:bg-zinc-600"}`}
                     onClick={() => setShowAddDropdown((prev) => !prev)}
                 >＋</button>
                 {showAddDropdown && (
@@ -114,8 +114,8 @@ export default function MainPanel() {
                     />
                 )}
             </div>
-            <div id="main-panel-container" className="flex flex-col h-full gap-0 bg-slate-100 h-full">
-                <div style = {{height: `${topHeight* 100}%`}} className="flex flex-col border-b-2 border-gray-400">
+            <div id="main-panel-container" className="flex flex-col h-full gap-0 bg-slate-100 dark:bg-zinc-700 h-full rounded-b-xl">
+                <div style = {{height: `${topHeight* 100}%`}} className="flex flex-col border-b-2 border-gray-400 dark:border-zinc-500">
                     {listTitle("Dimensions")}
                     <div className="flex flex-col h-full overflow-auto w-full">
                         <DimensionList
@@ -129,7 +129,7 @@ export default function MainPanel() {
                     </div>
                 </div>
                 <div
-                    className="relative h-2 border-b-2 border-gray-400 bg-slate-500 items-center justify-center cursor-row-resize"
+                    className="relative h-2 border-b-2 border-gray-400 dark:border-zinc-500 bg-slate-500 dark:bg-zinc-800 items-center justify-center cursor-row-resize"
                     onMouseDown={e => {
                         const container = document.getElementById('main-panel-container');
                         if (container) {

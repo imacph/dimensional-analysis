@@ -53,7 +53,7 @@ export default function VariableListElement({ variable, dimensions, onEdit, onRe
         });
     });
     return (
-        <div className={`flex flex-col border-b-2 min-w-full border-gray-300 px-2 ${highlight ? 'bg-red-100' : 'bg-white'}`}>
+        <div className={`flex flex-col border-b-2 min-w-full border-gray-300 dark:border-zinc-500 px-2 ${highlight ? 'bg-red-100' : 'bg-white dark:bg-zinc-700'}`}>
             <div className="flex flex-row items-center justify-between h-12 gap-1">
                 <div className="flex items-center justify-start gap-2 w-full">
                     <button

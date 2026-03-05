@@ -23,11 +23,11 @@ export default function VariableDimensionDropdown({ variable, dimensions, onEdit
                     .map((dim, fullIdx) => ({ dim, fullIdx }))
                     .filter(({ dim }) => dim.isVisible)
                     .map(({ dim, fullIdx }) => (
-                        <li key={dim.id} className="flex items-center gap-2 py-1">
-                            <span className="w-24">{dim.name}</span>
+                        <li key={dim.id} className="flex flex-row justify-start items-center gap-2 py-1">
+                            <span className="w-24 dark:text-zinc-300">{dim.name}</span>
                             <input
                                 type="number"
-                                className="w-20 px-1 border rounded"
+                                className="w-20 px-1 rounded bg-slate-100 dark:bg-zinc-600 dark:text-zinc-100"
                                 value={variable.exponents[fullIdx] ?? 0}
                                 onChange={e => handleExponentChange(fullIdx, e.target.value)}
                                 placeholder="Exponent"

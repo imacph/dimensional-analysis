@@ -18,7 +18,7 @@ export default function DimensionList({ dimensions, onEdit, onRemove, deleteAtte
     return (
         <ul className="flex flex-col h-full w-max min-w-full">
             {deleteAttempt && (
-                <li className="flex flex-none flex-row justify-between bg-red-200 text-red-800 p-2 border-b-2 border-gray-300 gap-1 min-w-full w-max">
+                <li className="flex flex-none flex-row justify-between bg-red-200 dark:text-zinc-600 text-red-800 p-2 border-b-2 border-gray-300 gap-1 min-w-full w-max">
                     <div className="flex flex-col">
                         <strong>Cannot delete {dimensions?.find(d => d.id === deleteAttempt.dimId)?.name || `dimension ${deleteAttempt.dimId}`}</strong> It is used by the following variable{deleteAttempt.affectedVarIds.length > 1 ? 's' : ''}:
                         <ul>
@@ -35,9 +35,9 @@ export default function DimensionList({ dimensions, onEdit, onRemove, deleteAtte
             )}
             
             {dimensions.filter(d => d.isVisible).map(d => (
-                <li key={d.id} className="flex flex-none flex-row min-w-full items-center justify-between h-14 bg-white border-b-2 border-gray-300 px-2 gap-4">
+                <li key={d.id} className="flex flex-none flex-row min-w-full items-center justify-between h-14 bg-white dark:bg-zinc-700 border-b-2 border-gray-300 dark:border-zinc-500 px-2 gap-4">
                     <div className="flex flex-row items-center justify-start gap-1 h-full w-full">
-                        <div className="flex-shrink-0 min-w-[6em]">
+                        <div className="flex-shrink-0">
                             <AutocompleteInput
                                 //className="flex font-semibold bg-transparent focus:border rounded p-1 border-gray-300 focus:outline-none placeholder:text-gray-400"
                                 value={d.name}
@@ -46,16 +46,21 @@ export default function DimensionList({ dimensions, onEdit, onRemove, deleteAtte
                                 suggestions={fundamentalUnits}
                             />
                         </div>
-                        <div className="flex-shrink-0 min-w-[6em] items-center flex h-full">
+                    </div>
+                    <div className="flex flex-row gap-4 items-center">
+                        <div className="flex-shrink-0 items-center flex h-full">
                             <SymbolDropdown
                                 value={d.symbol}
                                 onChange={symbol => onEdit(d.id, "symbol", symbol)}
                             />
                         </div>
+                        
+                        <button className = "flex pr-2 pb-1 text-gray-400 hover:text-gray-900 text-2xl"
+                        onClick={()=> onRemove(d.id)}>
+                            ×
+                        </button>
                     </div>
-                    <button className = "flex pr-2 pb-1 text-gray-400 hover:text-gray-900 text-2xl"
-                     onClick={()=> onRemove(d.id)}>×</button>
-                </li>
+                </li>   
             ))}
         </ul>
     );

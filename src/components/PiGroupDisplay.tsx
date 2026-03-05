@@ -9,18 +9,18 @@ interface PiGroupDisplayProps {
 }
 
 const PiGroupDisplay: React.FC<PiGroupDisplayProps> = ({ piGroups, symbols }) => (
-  <div className="flex flex-row justify-between col-span-1 bg-slate-200 rounded-xl py-4 px-16 items-center">
+  <div className="flex flex-row justify-between col-span-1 bg-slate-200 border-gray-300 dark:border-zinc-500 dark:bg-zinc-700 border-2  rounded-xl py-4 px-16 items-center">
     <div className="flex flex-row justify-start font-semibold mb-4 items-center gap-2 h-full">
-        <div className="text-2xl font-serif text-gray-600">Π</div>
-        <div className="text-2xl text-gray-600">Groups</div>
+        <div className="text-2xl font-serif text-gray-600 dark:text-zinc-100">Π</div>
+        <div className="text-2xl text-gray-600 dark:text-zinc-100">Groups</div>
     </div>
     {/* handle case of no pi groups */}
     {piGroups.rows === 0 ? (
-        <div className="border border-gray-500 p-4 text-center bg-slate-100 text-gray-500 italic">
+        <div className="border border-gray-500 dark:border-zinc-500 p-4 text-center text-gray-500 italic">
             Nothing to Display
         </div>
     ) : (
-    <ul className="flex flex-col gap-2 justify-center bg-white border border-gray-500 p-2 px-6">
+    <ul className="flex flex-col gap-2 justify-center bg-white dark:bg-zinc-800 border border-gray-500 dark:border-zinc-500 p-2 px-6">
     {piGroups.data.map((group: Rational[], idx: number) => {
       // Separate terms by exponent type
       const numNormal: string[] = [];
@@ -87,7 +87,7 @@ const PiGroupDisplay: React.FC<PiGroupDisplayProps> = ({ piGroups, symbols }) =>
         ? `\\frac{${numerator}}{${denominator}}`
         : numerator;
       return (
-        <li key={idx} className="mb-4">
+        <li key={idx} className="mb-4 dark:text-zinc-100">
           <KatexBlock math={`\\Pi_{${idx + 1}} = ${latex}`} />
         </li>
       );
