@@ -14,6 +14,12 @@ const PiGroupDisplay: React.FC<PiGroupDisplayProps> = ({ piGroups, symbols }) =>
         <div className="text-2xl font-serif text-gray-600">Π</div>
         <div className="text-2xl text-gray-600">Groups</div>
     </div>
+    {/* handle case of no pi groups */}
+    {piGroups.rows === 0 ? (
+        <div className="border border-gray-500 p-4 text-center bg-slate-100 text-gray-500 italic">
+            Nothing to Display
+        </div>
+    ) : (
     <ul className="flex flex-col gap-2 justify-center bg-white border border-gray-500 p-2 px-6">
     {piGroups.data.map((group: Rational[], idx: number) => {
       // Separate terms by exponent type
@@ -86,7 +92,7 @@ const PiGroupDisplay: React.FC<PiGroupDisplayProps> = ({ piGroups, symbols }) =>
         </li>
       );
     })}
-    </ul>
+    </ul>)}
   </div>
 );
 

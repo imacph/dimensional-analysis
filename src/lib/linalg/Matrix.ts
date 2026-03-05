@@ -21,6 +21,18 @@ export class Matrix {
         return new Matrix(matrix);
     }
 
+    static identity(size: number): Matrix {
+        const data: Rational[][] = [];
+        for (let i = 0; i < size; i++) {
+            const row: Rational[] = [];
+            for (let j = 0; j < size; j++) {
+                row.push(i === j ? new Rational(1, 1) : new Rational(0, 1));
+            }
+            data.push(row);
+        }
+        return new Matrix(data);
+    }
+
     get rows(): number {
         return this.data.length;
     }
@@ -80,6 +92,29 @@ export class Matrix {
             }
         }
         return m;
+    }
+
+    rowReductionMatrix(returnRREF: boolean = false): Matrix {
+        const m = this.clone();
+        const rowCount = m.rows;
+        const colCount = m.cols;
+        const mData = m.data;
+        const identity = Matrix.identity(rowCount).data;
+
+        const augmentedMatrix = new Matrix(mData.map((m, i) => [...m, ...identity[i]]));
+
+        const augmentedRREF = augmentedMatrix.rref();
+
+        // Extract the left and right parts of the augmented RREF
+        if (!returnRREF) {
+           
+            const rowReductionPart = augmentedRREF.data.map(row => row.slice(colCount));
+        
+            return new Matrix(rowReductionPart);
+        } else {
+
+            return new Matrix(augmentedRREF.data);
+        }
     }
 
     nullspaceBasis(rrefMatrix?: Matrix): Matrix {

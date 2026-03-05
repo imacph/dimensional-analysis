@@ -12,6 +12,10 @@ interface PiToolContextType {
     editDimension: (id: Dimension["id"], field: keyof Dimension, value: any) => void;
     removeDimension: (id: Dimension["id"]) => void;
     reorderVariables: (newOrder: Variable[]) => void; 
+    getShareableUrl: () => string;
+    copyShareableUrl: () => void;
+    downloadProfile: () => void;
+    importProfileFromFile: (file: File) => void;
 }
 
 export const PiToolContext = createContext<PiToolContextType | undefined>(undefined);

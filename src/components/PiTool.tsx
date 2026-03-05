@@ -6,12 +6,15 @@ import ResultsPanel from "./ResultsPanel";
 
 import dimensionPresets from '../lib/data/dimensions.json';
 import { useEffect } from "react";
-
+import LZString from "lz-string";
 
 
 
 
 export default function PiTool() {
+
+    const MAX_VARIABLES = 20;
+    const MAX_DIMENSIONS = 12;
 
     const fundamentalUnits = dimensionPresets.find(c => c.category === "Fundamental Units")?.contents ?? [];
 
@@ -35,6 +38,11 @@ export default function PiTool() {
 
     // Debug wrapper for addVariable
     const addVariable = (v: Omit<Variable, "id">) => {
+        if (variables.length >= MAX_VARIABLES) {
+            alert(`Maximum of ${MAX_VARIABLES} variables reached.`);
+            return;
+        }
+
         _addVariable({
             ...v,
             exponents: Array(dimensions.length).fill(0),
@@ -102,17 +110,113 @@ export default function PiTool() {
         );
     }, [dimensions]);
     
+    // --- Profile Serialization Helpers ---
+    function encodeProfile(variables: Variable[], dimensions: Dimension[]) {
+        const json = JSON.stringify({ variables, dimensions });
+        return encodeURIComponent(LZString.compressToEncodedURIComponent(json));
+    }
+
+    function decodeProfile(encoded: string) {
+        const json = LZString.decompressFromEncodedURIComponent(encoded);
+        return JSON.parse(json);
+    }
+
+    // --- Load profile from URL on mount ---
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const encoded = params.get("profile");
+        if (encoded) {
+            try {
+                const { variables: v, dimensions: d } = decodeProfile(encoded);
+                setVariables(v ?? []);
+                // Replace all dimensions
+                if (Array.isArray(d)) {
+                    // You may want to add validation here
+                    dimensions.splice(0, dimensions.length, ...d);
+                }
+            } catch (e) {
+                console.error("Failed to load profile from URL:", e);
+            }
+        }
+    }, []);
+
+    // --- Export/Share Functions ---
+    function getShareableUrl() {
+        const encoded = encodeProfile(variables, dimensions);
+        return `${window.location.origin}${window.location.pathname}?profile=${encoded}`;
+    }
+
+    function copyShareableUrl() {
+        const url = getShareableUrl();
+        navigator.clipboard.writeText(url);
+        alert("Shareable URL copied!");
+    }
+
+    function downloadProfile() {
+        const data = JSON.stringify({ variables, dimensions }, null, 2);
+        const blob = new Blob([data], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "profile.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function importProfileFromFile(file: File) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const profile = JSON.parse(e.target?.result as string);
+                setVariables(profile.variables ?? []);
+                // Replace all dimensions
+                if (Array.isArray(profile.dimensions)) {
+                    dimensions.splice(0, dimensions.length, ...profile.dimensions);
+                }
+            } catch (e) {
+                alert("Invalid profile file.");
+            }
+        };
+        reader.readAsText(file);
+    }
+
     return (<PiToolContext.Provider value={{
         variables, dimensions,
         addVariable, editVariable, editVariableMany, removeVariable,
-        addDimension, editDimension, removeDimension, reorderVariables
+        addDimension, editDimension, removeDimension, reorderVariables,
+        getShareableUrl, copyShareableUrl, downloadProfile, importProfileFromFile
     }}>
-        <div className="grid grid-cols-10 gap-2 w-full h-full">
-            <div className="col-span-7 h-full">
-                <ResultsPanel />
+
+        <div className="hidden sm:flex flex-col sm:col-span-2 h-100% p-4 rounded-lg bg-slate-600 shadow-lg justify-between items-center">
+            <div className="flex flex-col justify-start items-start">
+                <h1 className="flex text-4xl font-bold mb-4 text-center text-white w-full">Dimensional Analysis Tool</h1>
+                <button className="bg-slate-100 cursor-pointer rounded p-2 hover:bg-red-500 border-2 hover:text-white hover:border-white border-gray-300"
+                    onClick={()=>{
+                    setVariables([]);
+                    dimensions.splice(0, dimensions.length, ...initialDimensions);
+                }}>Reset & Clear all ⟳</button>
             </div>
-            <div className="col-span-3 flex flex-col gap-4 border-2 rounded-2xl border-gray-300 h-full w-full">
-                <MainPanel />
+            <div className="flex flex-col gap-1 mt-4 w-full">
+                <button onClick={copyShareableUrl} className="flex bg-slate-100 cursor-pointer justify-center rounded p-2 hover:bg-slate-200">Copy Shareable URL</button>
+                <button onClick={downloadProfile} className="flex bg-slate-100 cursor-pointer justify-center rounded p-2 hover:bg-slate-200">Download Profile</button>
+                <label className="flex bg-slate-100 cursor-pointer justify-center rounded p-2 hover:bg-slate-200" >
+                    Import Profile
+                    <input type="file" accept="application/json" style={{ display: "none" }}
+                        onChange={e => {
+                            const file = e.target.files?.[0];
+                            if (file) importProfileFromFile(file);
+                        }} />
+                </label>
+            </div>
+        </div>
+        <div className="col-span-10 w-full h-full">
+            <div className="grid grid-cols-10 gap-2 w-full h-full">
+                <div className="col-span-7 h-full">
+                    <ResultsPanel />
+                </div>
+                <div className="col-span-3 flex flex-col gap-4 border-2 rounded-2xl border-gray-300 h-full w-full">
+                    <MainPanel />
+                </div>
             </div>
         </div>
     </PiToolContext.Provider>);
