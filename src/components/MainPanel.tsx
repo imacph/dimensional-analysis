@@ -94,10 +94,7 @@ export default function MainPanel() {
         };
     }, [isDragging]);
 
-    React.useEffect(() => {
-        console.log('Dimensions updated:', dimensions);
-        console.log('Variables updated:', variables);
-    }, [dimensions, variables]);
+
 
     return (
         <div className="flex flex-col h-full gap-0 bg-slate-200 rounded-2xl">
@@ -132,7 +129,7 @@ export default function MainPanel() {
                     </div>
                 </div>
                 <div
-                    className="flex h-2 border-b-2 border-gray-400 bg-slate-500 items-center justify-center cursor-row-resize"
+                    className="relative h-2 border-b-2 border-gray-400 bg-slate-500 items-center justify-center cursor-row-resize"
                     onMouseDown={e => {
                         const container = document.getElementById('main-panel-container');
                         if (container) {
@@ -145,7 +142,9 @@ export default function MainPanel() {
                         }
                         setIsDragging(true);
                     }}
-                ></div>
+                >
+                    <div className="w-full h-full text-white absolute -top-3 left-0 flex items-center justify-center text-3xl">...</div>
+                </div>
                 <div className="flex flex-col flex-1 min-h-0">
                     {listTitle("Variables")}
                     <div className="flex flex-col flex-1 min-h-0 overflow-y-auto h-full">

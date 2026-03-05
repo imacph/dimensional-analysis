@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type Suggestion = {
     label: string;
-    symbols?: string[];
+    symbol?: { value: string; latex?: string };
     dimensions?: number[];
 };
 

@@ -21,7 +21,7 @@ export default function PiTool() {
     const initialDimensions: Dimension[] = fundamentalUnits.map((unit, index) => ({
         id: index,
         name: unit.label,
-        symbol: unit.symbols?.[0] ?? "",
+        symbol: unit.symbol?.value ?? "",
         isFundamental: true,
         isVisible: false, // Start with fundamental dimensions hidden by default
     }));
