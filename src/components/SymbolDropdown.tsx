@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import symbolCategories from "../lib/data/symbols.json";
 
 type SymbolDropdownProps = {

@@ -6,7 +6,7 @@ import dimensionPresets from '../lib/data/dimensions.json';
 import AutocompleteInput from './AutocompleteInput';
 
 const allPresets = dimensionPresets.flatMap(c => c.contents);
-const fundamentalUnits = dimensionPresets.find(c => c.category === "Fundamental Units")?.contents ?? [];
+
 
 
 

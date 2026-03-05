@@ -2,7 +2,7 @@ import React from 'react';
 import 'katex/dist/katex.min.css';
 import { Matrix } from '../lib/linalg/Matrix';
 import { Rational } from '../lib/linalg/Rational';
-import KatexBlock from './KatexBlock';
+import KatexBlock from './KaTeXBlock';
 interface PiGroupDisplayProps {
   piGroups: Matrix;
   symbols: string[];

@@ -1,5 +1,5 @@
 import type { Dimension, Variable } from '../lib/model/types';
-import { useState } from 'react';
+
 
 
 type VariableDimensionDropdownProps = {
